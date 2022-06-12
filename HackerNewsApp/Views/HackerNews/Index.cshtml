@@ -1,0 +1,66 @@
+﻿@model IEnumerable<HackerNewsApp.Models.HackerNewsItem>
+
+         
+<div class="col-md-8 mx-auto">
+    @Html.ActionLink("Top", "Index", "HackerNews", new { postStatus = "topstories" }, new { @class = "btn btn-secondary", id = "topstories" })
+    @Html.ActionLink("New", "Index", "HackerNews", new { postStatus = "newstories" }, new { @class = "btn btn-secondary", id = "newstories" })
+    @Html.ActionLink("Favorites", "Index", "HackerNews", new { postStatus = "beststories" }, new { @class = "btn btn-secondary", id = "beststories" })
+</div>
+<div class="mt-3">
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="col-md-8 mx-auto">
+                <div class="row g-0 border rounded overflow-auto flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col-auto d-lg-block align-self-center m-3 text-secondary fw-bold">
+                        @if (item.Score != null)
+                        {
+                            <p>@item.Score</p>
+                        } else
+                        {
+                            <div>
+                                
+                            </div>
+                        }
+                    </div>
+
+                    <div class="col p-3 d-flex flex-column position-static overflow-auto">
+                        @if (item.Title != null)
+                        {
+                            <h4 class="mb-5">
+                                <a class="text-decoration-none text-black fw-bold" href="https://news.ycombinator.com/item?id=@item.Id">@item.Title</a>
+                            </h4>     
+                        }
+
+                        <div class="d-flex mt-auto justify-content-between">
+                            @if (item.Kids?.Count() > 0) {
+                                <div class="mb-1 text-muted">@item.Kids.Count() comment(s)</div>
+                            } else
+                            {
+                                <div></div>
+                            }
+                            <div class="d-flex">
+                                @if (item.By != null) {
+                                    <div>Submitted by <a class="text-warning" href="https://news.ycombinator.com/user?id=@item.By">@item.By</a></div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section scripts {
+    <script>
+        var url = window.location.href;
+        $(".btn.btn-secondary").each((i, e) => {
+            if (url.includes(e.id)) {
+                $(e).addClass("active");
+            }
+        });
+      
+    </script>
+}

@@ -1,6 +1,10 @@
+using HackerNewsApp.Interfaces;
+using HackerNewsApp.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<IHackerNewsRepository, HackerNewsRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
